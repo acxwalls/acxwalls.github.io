@@ -38,20 +38,12 @@ body{
   z-index:9999;
   animation:introFade 1.8s ease forwards;
 }
-
 #intro h1{
   font-family:'Orbitron',sans-serif;
   font-size:48px;
   color:var(--pink);
   letter-spacing:4px;
-  animation:introText 1.8s ease;
 }
-
-@keyframes introText{
-  0%{opacity:0;transform:scale(.9)}
-  100%{opacity:1}
-}
-
 @keyframes introFade{
   0%,80%{opacity:1}
   100%{opacity:0;visibility:hidden}
@@ -63,7 +55,6 @@ header{
   display:flex;
   justify-content:center;
 }
-
 .logo{
   font-family:'Orbitron',sans-serif;
   color:var(--pink);
@@ -77,7 +68,6 @@ header{
   max-width:1200px;
   padding:0 26px;
 }
-
 .search input{
   width:100%;
   padding:16px 20px;
@@ -95,7 +85,6 @@ header{
   padding:0 26px;
   flex-wrap:wrap;
 }
-
 .tag{
   padding:9px 18px;
   font-size:13px;
@@ -105,7 +94,6 @@ header{
   color:var(--muted);
   cursor:pointer;
 }
-
 .tag.active{
   color:white;
   border-color:var(--neon);
@@ -121,7 +109,7 @@ header{
   padding:0 26px;
 }
 
-/* GRID — FIXED 4 PER ROW */
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -130,17 +118,9 @@ header{
   max-width:1400px;
   margin:auto;
 }
-
-/* RESPONSIVE */
-@media(max-width:1100px){
-  .grid{grid-template-columns:repeat(3,1fr)}
-}
-@media(max-width:800px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:480px){
-  .grid{grid-template-columns:1fr}
-}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
 
 /* CARD */
 .card{
@@ -150,22 +130,40 @@ header{
   overflow:hidden;
   cursor:pointer;
 }
-
 .card.active{
   border-color:var(--neon);
   box-shadow:0 0 18px rgba(77,220,255,.7);
 }
-
 .card img{
   width:100%;
   aspect-ratio:16/9;
   object-fit:cover;
 }
-
 .card p{
   padding:10px 12px;
   font-size:13px;
   color:#cfd6ff;
+}
+
+/* PAGINATION (FIXED) */
+.pagination{
+  display:flex;
+  justify-content:space-between;
+  padding:40px 26px;
+  max-width:1400px;
+  margin:auto;
+}
+.pagination button{
+  background:#0b1124;
+  border:1px solid var(--border);
+  color:white;
+  padding:12px 26px;
+  border-radius:14px;
+  cursor:pointer;
+}
+.pagination button.flash{
+  border-color:var(--neon);
+  box-shadow:0 0 16px rgba(77,220,255,.7);
 }
 
 /* SECTIONS */
@@ -174,13 +172,11 @@ header{
   margin:auto;
   padding:70px 26px;
 }
-
 .section h2{
   font-family:'Orbitron',sans-serif;
   font-size:28px;
   margin-bottom:18px;
 }
-
 .section p{
   color:var(--muted);
   line-height:1.8;
@@ -197,88 +193,77 @@ footer{
 
 <body>
 
-<div id="intro">
-  <h1>ACX WALLS</h1>
-</div>
+<div id="intro"><h1>ACX WALLS</h1></div>
 
-<header>
-  <div class="logo">ACX Walls</div>
-</header>
+<header><div class="logo">ACX Walls</div></header>
 
 <section id="home">
 
-  <div class="search">
-    <input type="text" placeholder="Search wallpapers...">
-  </div>
+<div class="search">
+  <input type="text" placeholder="Search wallpapers...">
+</div>
 
-  <div class="tags">
-    <div class="tag">Anime</div>
-    <div class="tag">Games</div>
-    <div class="tag">Mobile</div>
-    <div class="tag">Live</div>
-    <div class="tag">PC</div>
-  </div>
+<div class="tags">
+  <div class="tag">Anime</div>
+  <div class="tag">Games</div>
+  <div class="tag">Mobile</div>
+  <div class="tag">Live</div>
+  <div class="tag">PC</div>
+</div>
 
-  <div class="title">Latest Uploads</div>
+<div class="title">Latest Uploads</div>
 
-  <div class="grid">
-    <!-- ROW 1 -->
-    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Sekiro – Lady Wolf</p></div>
-    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Cyberpunk Samurai</p></div>
-    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Anime Night City</p></div>
-    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Valorant Neon</p></div>
+<div class="grid">
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Sekiro – Lady Wolf</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Cyberpunk Samurai</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Anime Night City</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Valorant Neon</p></div>
 
-    <!-- ROW 2 -->
-    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Dark Shinobi</p></div>
-    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>GTA VI Vibes</p></div>
-    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Samurai Red</p></div>
-    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Cyber Blade</p></div>
-  </div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Dark Shinobi</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>GTA VI Vibes</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Samurai Red</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Cyber Blade</p></div>
+</div>
 
-</section>
+<div class="pagination">
+  <button id="prevBtn">PREVIOUS</button>
+  <button id="nextBtn">NEXT</button>
+</div>
 
-<section class="section">
-  <h2>About ACX Walls</h2>
-  <p>ACX Walls is a curated wallpaper platform focused on clean design, top-notch quality, and visual aesthetics. Every wallpaper is carefully selected to ensure it never feels boring — all collections are premium, aesthetic, and visually engaging.</p>
-</section>
-
-<section class="section">
-  <h2>Credits</h2>
-  <p>All wallpapers belong to their respective creators. ACX Walls does not claim ownership of any artwork and showcases content with full respect to original creators.</p>
-</section>
-
-<section class="section">
-  <h2>Contact</h2>
-  <p><strong>For copyright concerns, business queries or requests, contact us at <strong>acxwalls@gmail.com</strong></p>
 </section>
 
 <footer>© 2026 ACX Walls</footer>
 
 <script>
-const tags = document.querySelectorAll('.tag');
-const cards = document.querySelectorAll('.card');
+const tags=document.querySelectorAll('.tag');
+const cards=document.querySelectorAll('.card');
 
 tags.forEach(tag=>{
-  tag.addEventListener('click',e=>{
+  tag.onclick=e=>{
     e.stopPropagation();
     tags.forEach(t=>t.classList.remove('active'));
     cards.forEach(c=>c.classList.remove('active'));
     tag.classList.add('active');
-  });
+  }
 });
-
 cards.forEach(card=>{
-  card.addEventListener('click',e=>{
+  card.onclick=e=>{
     e.stopPropagation();
     cards.forEach(c=>c.classList.remove('active'));
     tags.forEach(t=>t.classList.remove('active'));
     card.classList.add('active');
-  });
+  }
 });
-
 document.addEventListener('click',()=>{
   tags.forEach(t=>t.classList.remove('active'));
   cards.forEach(c=>c.classList.remove('active'));
+});
+
+document.querySelectorAll('.pagination button').forEach(btn=>{
+  btn.onclick=()=>{
+    btn.classList.add('flash');
+    setTimeout(()=>btn.classList.remove('flash'),180);
+  }
 });
 </script>
 
