@@ -18,7 +18,7 @@
   --muted:#8c96ad;
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
   background:radial-gradient(circle at top,#0b1228,#050914 70%);
@@ -45,8 +45,8 @@ body{
   letter-spacing:4px;
 }
 @keyframes introFade{
-  0%,80%{opacity:1}
-  100%{opacity:0;visibility:hidden}
+  0%,80%{opacity:1;}
+  100%{opacity:0;visibility:hidden;}
 }
 
 /* HEADER */
@@ -76,10 +76,11 @@ header{
   background:#0b1124;
   color:white;
   box-shadow:0 0 10px rgba(255,255,255,.15);
+  transition:0.3s;
 }
 .search input:focus{
   outline:none;
-  box-shadow:0 0 14px rgba(255,255,255,.35);
+  box-shadow:0 0 20px rgba(77,220,255,.4);
 }
 
 /* TAGS */
@@ -98,7 +99,9 @@ header{
   border:1px solid var(--border);
   color:var(--muted);
   cursor:pointer;
+  transition:0.3s;
 }
+.tag:hover{color:white; border-color:var(--neon);}
 .tag.active{
   color:white;
   border-color:var(--neon);
@@ -129,9 +132,9 @@ header{
   transform:translateY(12px);
 }
 
-@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.grid{grid-template-columns:1fr}}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.grid{grid-template-columns:1fr;}}
 
 /* CARD */
 .card{
@@ -140,14 +143,20 @@ header{
   border-radius:16px;
   overflow:hidden;
   cursor:pointer;
+  transition:0.35s;
+  width:100%; /* card width 100% of column */
+}
+.card:hover{
+  transform:scale(1.03);
+  box-shadow:0 0 18px rgba(77,220,255,.5);
 }
 .card.active{
   border-color:var(--neon);
-  box-shadow:0 0 18px rgba(77,220,255,.5);
+  box-shadow:0 0 20px rgba(77,220,255,.7);
 }
 .card img{
   width:100%;
-  aspect-ratio:16/9;
+  aspect-ratio:16/9; /* maintain 16:9 */
   object-fit:cover;
 }
 .card p{
@@ -171,9 +180,13 @@ header{
   padding:12px 26px;
   border-radius:14px;
   cursor:pointer;
+  transition:0.3s;
+}
+.pagination button:hover{
+  box-shadow:0 0 18px rgba(77,220,255,.5);
 }
 .pagination button.pulse{
-  box-shadow:0 0 18px rgba(77,220,255,.7);
+  box-shadow:0 0 22px rgba(77,220,255,.7);
 }
 
 /* INFO SECTIONS */
@@ -192,12 +205,20 @@ header{
   line-height:1.8;
 }
 
+/* FOOTER */
 footer{
   text-align:center;
   padding:25px;
   font-size:13px;
   color:#6f7894;
 }
+footer a{
+  color:var(--neon);
+  text-decoration:none;
+  margin:0 8px;
+  transition:0.3s;
+}
+footer a:hover{color:var(--pink);}
 </style>
 </head>
 
@@ -224,10 +245,10 @@ footer{
 <div class="title">Latest Uploads</div>
 
 <div class="grid" id="grid">
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 1</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 2</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 3</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 4</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 1"><p>Wallpaper 1</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 2"><p>Wallpaper 2</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 3"><p>Wallpaper 3</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 4"><p>Wallpaper 4</p></div>
 </div>
 
 <div class="pagination">
@@ -252,7 +273,10 @@ footer{
 <p>For copyright concerns, business queries or requests, contact us at <strong>acxwalls@gmail.com</strong></p>
 </section>
 
-<footer>© 2026 ACX Walls</footer>
+<footer>
+© 2026 ACX Walls | Follow us: 
+<a href="#">Instagram</a> | <a href="#">Twitter</a> | <a href="#">Discord</a>
+</footer>
 
 <script>
 const tags = document.querySelectorAll('.tag');
@@ -282,6 +306,7 @@ body.onclick = ()=>{
   cards.forEach(c=>c.classList.remove('active'));
 };
 
+// Pagination
 let currentPage=1,maxPage=10;
 const prevBtn=document.getElementById('prevBtn');
 const nextBtn=document.getElementById('nextBtn');
@@ -295,11 +320,9 @@ function animateGrid(){
   grid.classList.add('animate');
   setTimeout(()=>grid.classList.remove('animate'),350);
 }
-
 function scrollToTop(){
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
 function updateButtons(){
   prevBtn.textContent=currentPage>1?`PREVIOUS ${currentPage-1}`:'PREVIOUS';
   nextBtn.textContent=currentPage<maxPage?`NEXT ${currentPage}`:'SEARCH TAGS';
@@ -310,10 +333,10 @@ nextBtn.onclick=()=>{
     currentPage++;
     animateGrid();
     pulse(nextBtn);
-    scrollToTop();     // FIX 2
+    scrollToTop();
     updateButtons();
   }else{
-    searchBox.scrollIntoView({behavior:'smooth'}); // FIX 1
+    searchBox.scrollIntoView({behavior:'smooth'});
     searchInput.focus();
   }
 };
@@ -323,12 +346,21 @@ prevBtn.onclick=()=>{
     currentPage--;
     animateGrid();
     pulse(prevBtn);
-    scrollToTop();     // FIX 2
+    scrollToTop();
     updateButtons();
   }
 };
 
 updateButtons();
+
+// Simple Search Filter
+searchInput.addEventListener('input',()=>{
+  const term = searchInput.value.toLowerCase();
+  cards.forEach(card=>{
+    const text = card.querySelector('p').textContent.toLowerCase();
+    card.style.display = text.includes(term)?'block':'none';
+  });
+});
 </script>
 
 </body>
