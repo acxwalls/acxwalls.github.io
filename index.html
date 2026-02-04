@@ -75,6 +75,11 @@ header{
   border:1px solid var(--border);
   background:#0b1124;
   color:white;
+  box-shadow:0 0 10px rgba(255,255,255,.15);
+}
+.search input:focus{
+  outline:none;
+  box-shadow:0 0 14px rgba(255,255,255,.35);
 }
 
 /* TAGS */
@@ -117,7 +122,13 @@ header{
   padding:0 26px;
   max-width:1400px;
   margin:auto;
+  transition:opacity .35s ease, transform .35s ease;
 }
+.grid.animate{
+  opacity:0;
+  transform:translateY(12px);
+}
+
 @media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.grid{grid-template-columns:1fr}}
@@ -132,7 +143,7 @@ header{
 }
 .card.active{
   border-color:var(--neon);
-  box-shadow:0 0 18px rgba(77,220,255,.7);
+  box-shadow:0 0 18px rgba(77,220,255,.5);
 }
 .card img{
   width:100%;
@@ -145,7 +156,7 @@ header{
   color:#cfd6ff;
 }
 
-/* PAGINATION (FIXED) */
+/* PAGINATION */
 .pagination{
   display:flex;
   justify-content:space-between;
@@ -161,12 +172,11 @@ header{
   border-radius:14px;
   cursor:pointer;
 }
-.pagination button.flash{
-  border-color:var(--neon);
-  box-shadow:0 0 16px rgba(77,220,255,.7);
+.pagination button.pulse{
+  box-shadow:0 0 18px rgba(77,220,255,.7);
 }
 
-/* SECTIONS */
+/* INFO SECTIONS */
 .section{
   max-width:900px;
   margin:auto;
@@ -199,8 +209,8 @@ footer{
 
 <section id="home">
 
-<div class="search">
-  <input type="text" placeholder="Search wallpapers...">
+<div class="search" id="searchBox">
+  <input id="searchInput" type="text" placeholder="Search wallpapers...">
 </div>
 
 <div class="tags">
@@ -213,58 +223,112 @@ footer{
 
 <div class="title">Latest Uploads</div>
 
-<div class="grid">
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Sekiro – Lady Wolf</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Cyberpunk Samurai</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Anime Night City</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Valorant Neon</p></div>
-
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Dark Shinobi</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>GTA VI Vibes</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Samurai Red</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Cyber Blade</p></div>
+<div class="grid" id="grid">
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 1</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 2</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 3</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 4</p></div>
 </div>
 
 <div class="pagination">
   <button id="prevBtn">PREVIOUS</button>
-  <button id="nextBtn">NEXT</button>
+  <button id="nextBtn">NEXT 1</button>
 </div>
 
+</section>
+
+<section class="section">
+<h2>About ACX Walls</h2>
+<p>ACX Walls is a curated wallpaper platform focused on clean design, top-notch quality, and visual aesthetics. Every wallpaper is carefully selected to ensure it never feels boring — all collections are premium, aesthetic, and visually engaging.</p>
+</section>
+
+<section class="section">
+<h2>Credits</h2>
+<p>All wallpapers belong to their respective creators. ACX Walls does not claim ownership of any artwork and showcases content with full respect to original creators.</p>
+</section>
+
+<section class="section">
+<h2>Contact</h2>
+<p>For copyright concerns, business queries or requests, contact us at <strong>acxwalls@gmail.com</strong></p>
 </section>
 
 <footer>© 2026 ACX Walls</footer>
 
 <script>
-const tags=document.querySelectorAll('.tag');
-const cards=document.querySelectorAll('.card');
+const tags = document.querySelectorAll('.tag');
+const cards = document.querySelectorAll('.card');
+const body = document.body;
+const searchBox = document.getElementById('searchBox');
+const searchInput = document.getElementById('searchInput');
 
 tags.forEach(tag=>{
-  tag.onclick=e=>{
+  tag.onclick = e=>{
     e.stopPropagation();
     tags.forEach(t=>t.classList.remove('active'));
-    cards.forEach(c=>c.classList.remove('active'));
     tag.classList.add('active');
-  }
-});
-cards.forEach(card=>{
-  card.onclick=e=>{
-    e.stopPropagation();
-    cards.forEach(c=>c.classList.remove('active'));
-    tags.forEach(t=>t.classList.remove('active'));
-    card.classList.add('active');
-  }
-});
-document.addEventListener('click',()=>{
-  tags.forEach(t=>t.classList.remove('active'));
-  cards.forEach(c=>c.classList.remove('active'));
+  };
 });
 
-document.querySelectorAll('.pagination button').forEach(btn=>{
-  btn.onclick=()=>{
-    btn.classList.add('flash');
-    setTimeout(()=>btn.classList.remove('flash'),180);
-  }
+cards.forEach(card=>{
+  card.onclick = e=>{
+    e.stopPropagation();
+    cards.forEach(c=>c.classList.remove('active'));
+    card.classList.add('active');
+  };
 });
+
+body.onclick = ()=>{
+  tags.forEach(t=>t.classList.remove('active'));
+  cards.forEach(c=>c.classList.remove('active'));
+};
+
+let currentPage=1,maxPage=10;
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const grid=document.getElementById('grid');
+
+function pulse(btn){
+  btn.classList.add('pulse');
+  setTimeout(()=>btn.classList.remove('pulse'),180);
+}
+function animateGrid(){
+  grid.classList.add('animate');
+  setTimeout(()=>grid.classList.remove('animate'),350);
+}
+
+function scrollToTop(){
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateButtons(){
+  prevBtn.textContent=currentPage>1?`PREVIOUS ${currentPage-1}`:'PREVIOUS';
+  nextBtn.textContent=currentPage<maxPage?`NEXT ${currentPage}`:'SEARCH TAGS';
+}
+
+nextBtn.onclick=()=>{
+  if(currentPage < maxPage){
+    currentPage++;
+    animateGrid();
+    pulse(nextBtn);
+    scrollToTop();     // FIX 2
+    updateButtons();
+  }else{
+    searchBox.scrollIntoView({behavior:'smooth'}); // FIX 1
+    searchInput.focus();
+  }
+};
+
+prevBtn.onclick=()=>{
+  if(currentPage > 1){
+    currentPage--;
+    animateGrid();
+    pulse(prevBtn);
+    scrollToTop();     // FIX 2
+    updateButtons();
+  }
+};
+
+updateButtons();
 </script>
 
 </body>
