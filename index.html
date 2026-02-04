@@ -144,7 +144,7 @@ header{
   overflow:hidden;
   cursor:pointer;
   transition:0.35s;
-  width:100%; /* card width 100% of column */
+  width:100%;
 }
 .card:hover{
   transform:scale(1.03);
@@ -156,8 +156,10 @@ header{
 }
 .card img{
   width:100%;
-  aspect-ratio:16/9; /* maintain 16:9 */
+  height:auto;
+  aspect-ratio:16/9;
   object-fit:cover;
+  display:block;
 }
 .card p{
   padding:10px 12px;
@@ -249,6 +251,10 @@ footer a:hover{color:var(--pink);}
   <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 2"><p>Wallpaper 2</p></div>
   <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 3"><p>Wallpaper 3</p></div>
   <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 4"><p>Wallpaper 4</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 5"><p>Wallpaper 5</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 6"><p>Wallpaper 6</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 7"><p>Wallpaper 7</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 8"><p>Wallpaper 8</p></div>
 </div>
 
 <div class="pagination">
