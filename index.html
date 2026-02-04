@@ -93,6 +93,7 @@ header{
   justify-content:center;
   gap:12px;
   padding:0 26px;
+  flex-wrap:wrap;
 }
 
 .tag{
@@ -120,21 +121,32 @@ header{
   padding:0 26px;
 }
 
-/* GRID */
+/* GRID — FIXED 4 PER ROW */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-  gap:26px;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px;
   padding:0 26px;
   max-width:1400px;
   margin:auto;
+}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:800px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .grid{grid-template-columns:1fr}
 }
 
 /* CARD */
 .card{
   background:linear-gradient(180deg,#0b1124,#070c1c);
   border:1px solid var(--border);
-  border-radius:18px;
+  border-radius:16px;
   overflow:hidden;
   cursor:pointer;
 }
@@ -151,32 +163,9 @@ header{
 }
 
 .card p{
-  padding:14px;
-  font-size:14px;
+  padding:10px 12px;
+  font-size:13px;
   color:#cfd6ff;
-}
-
-/* PAGINATION */
-.pagination{
-  display:flex;
-  justify-content:space-between;
-  padding:40px 26px;
-  max-width:1400px;
-  margin:auto;
-}
-
-.pagination button{
-  background:#0b1124;
-  border:1px solid var(--border);
-  color:white;
-  padding:12px 26px;
-  border-radius:14px;
-  cursor:pointer;
-}
-
-.pagination button.flash{
-  border-color:var(--neon);
-  box-shadow:0 0 16px rgba(77,220,255,.7);
 }
 
 /* SECTIONS */
@@ -233,36 +222,34 @@ footer{
   <div class="title">Latest Uploads</div>
 
   <div class="grid">
-    <div class="card">
-      <img src="https://via.placeholder.com/1280x720">
-      <p>Sekiro – Lady Wolf</p>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/1280x720">
-      <p>Cyberpunk Samurai</p>
-    </div>
-  </div>
+    <!-- ROW 1 -->
+    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Sekiro – Lady Wolf</p></div>
+    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Cyberpunk Samurai</p></div>
+    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Anime Night City</p></div>
+    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Valorant Neon</p></div>
 
-  <div class="pagination">
-    <button>PREVIOUS</button>
-    <button>NEXT</button>
+    <!-- ROW 2 -->
+    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Dark Shinobi</p></div>
+    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>GTA VI Vibes</p></div>
+    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Samurai Red</p></div>
+    <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Cyber Blade</p></div>
   </div>
 
 </section>
 
 <section class="section">
   <h2>About ACX Walls</h2>
-  <p>ACX Walls is a curated wallpaper platform focused on clean design, top-notch quality, and visual aesthetics. Every wallpaper is carefully selected to ensure it never feels boring — all collections are premium, aesthetic, and visually engaging.</p>
+  <p>ACX Walls is a curated wallpaper platform focused on clean design, top-notch quality, and visual aesthetics.</p>
 </section>
 
 <section class="section">
   <h2>Credits</h2>
-  <p>All wallpapers belong to their respective creators. ACX Walls does not claim ownership of any artwork and showcases content with full respect to original creators.</p>
+  <p>All wallpapers belong to their respective creators.</p>
 </section>
 
 <section class="section">
   <h2>Contact</h2>
-  <p>For copyright concerns, business queries or requests, contact us at <strong>acxwalls@gmail.com</strong></p>
+  <p><strong>acxwalls@gmail.com</strong></p>
 </section>
 
 <footer>© 2026 ACX Walls</footer>
@@ -292,13 +279,6 @@ cards.forEach(card=>{
 document.addEventListener('click',()=>{
   tags.forEach(t=>t.classList.remove('active'));
   cards.forEach(c=>c.classList.remove('active'));
-});
-
-document.querySelectorAll('.pagination button').forEach(btn=>{
-  btn.onclick=()=>{
-    btn.classList.add('flash');
-    setTimeout(()=>btn.classList.remove('flash'),180);
-  };
 });
 </script>
 
