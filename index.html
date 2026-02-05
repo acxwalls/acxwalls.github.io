@@ -17,12 +17,36 @@
   --text:#e9ecf3;
   --muted:#8c96ad;
 }
+
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
   background:radial-gradient(circle at top,#0b1228,#050914 70%);
   color:var(--text);
   font-family:system-ui,sans-serif;
   overflow-x:hidden;
+}
+
+/* INTRO */
+#intro{
+  position:fixed;
+  inset:0;
+  background:var(--bg);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  animation:introFade 1.8s ease forwards;
+}
+#intro h1{
+  font-family:'Orbitron',sans-serif;
+  font-size:48px;
+  color:var(--pink);
+  letter-spacing:4px;
+}
+@keyframes introFade{
+  0%,80%{opacity:1;}
+  100%{opacity:0;visibility:hidden;}
 }
 
 /* HEADER */
@@ -36,6 +60,52 @@ header{
   color:var(--pink);
   font-size:40px;
   letter-spacing:3px;
+}
+
+/* SEARCH */
+.search{
+  margin:20px auto 25px;
+  max-width:1200px;
+  padding:0 26px;
+}
+.search input{
+  width:100%;
+  padding:16px 20px;
+  border-radius:40px;
+  border:1px solid var(--border);
+  background:#0b1124;
+  color:white;
+  box-shadow:0 0 10px rgba(255,255,255,.15);
+  transition:0.3s;
+}
+.search input:focus{
+  outline:none;
+  box-shadow:0 0 20px rgba(77,220,255,.4);
+}
+
+/* TAGS */
+.tags{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  padding:0 26px;
+  flex-wrap:wrap;
+}
+.tag{
+  padding:9px 18px;
+  font-size:13px;
+  border-radius:30px;
+  background:#0b1124;
+  border:1px solid var(--border);
+  color:var(--muted);
+  cursor:pointer;
+  transition:0.3s;
+}
+.tag:hover{color:white; border-color:var(--neon);}
+.tag.active{
+  color:white;
+  border-color:var(--neon);
+  box-shadow:0 0 14px rgba(77,220,255,.6);
 }
 
 /* TITLE */
@@ -55,7 +125,13 @@ header{
   padding:0 26px;
   max-width:1400px;
   margin:auto;
+  transition:opacity .35s ease, transform .35s ease;
 }
+.grid.animate{
+  opacity:0;
+  transform:translateY(12px);
+}
+
 @media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:480px){.grid{grid-template-columns:1fr;}}
@@ -66,14 +142,21 @@ header{
   border:1px solid var(--border);
   border-radius:16px;
   overflow:hidden;
+  cursor:pointer;
   transition:0.35s;
+  width:100%;
 }
 .card:hover{
   transform:scale(1.03);
   box-shadow:0 0 18px rgba(77,220,255,.5);
 }
+.card.active{
+  border-color:var(--neon);
+  box-shadow:0 0 20px rgba(77,220,255,.7);
+}
 .card img{
   width:100%;
+  height:auto;
   aspect-ratio:16/9;
   object-fit:cover;
   display:block;
@@ -83,46 +166,218 @@ header{
   font-size:13px;
   color:#cfd6ff;
 }
-.card a{
-  text-decoration:none;
-  color:inherit;
+
+/* PAGINATION */
+.pagination{
+  display:flex;
+  justify-content:space-between;
+  padding:40px 26px;
+  max-width:1400px;
+  margin:auto;
 }
+.pagination button{
+  background:#0b1124;
+  border:1px solid var(--border);
+  color:white;
+  padding:12px 26px;
+  border-radius:14px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.pagination button:hover{
+  box-shadow:0 0 18px rgba(77,220,255,.5);
+}
+.pagination button.pulse{
+  box-shadow:0 0 22px rgba(77,220,255,.7);
+}
+
+/* INFO SECTIONS */
+.section{
+  max-width:900px;
+  margin:auto;
+  padding:70px 26px;
+}
+.section h2{
+  font-family:'Orbitron',sans-serif;
+  font-size:28px;
+  margin-bottom:18px;
+}
+.section p{
+  color:var(--muted);
+  line-height:1.8;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:25px;
+  font-size:13px;
+  color:#6f7894;
+}
+footer a{
+  color:var(--neon);
+  text-decoration:none;
+  margin:0 8px;
+  transition:0.3s;
+}
+footer a:hover{color:var(--pink);}
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">ACX Walls</div>
-</header>
+<div id="intro"><h1>ACX WALLS</h1></div>
+
+<header><div class="logo">ACX Walls</div></header>
+
+<section id="home">
+
+<div class="search" id="searchBox">
+  <input id="searchInput" type="text" placeholder="Search wallpapers...">
+</div>
+
+<div class="tags">
+  <div class="tag">Anime</div>
+  <div class="tag">Games</div>
+  <div class="tag">Mobile</div>
+  <div class="tag">Live</div>
+  <div class="tag">PC</div>
+</div>
 
 <div class="title">Latest Uploads</div>
 
-<!-- ✅ GRID START -->
-<div class="grid">
-
-  <!-- ✅ FIXED CARD -->
+<div class="grid" id="grid">
   <div class="card">
-    <a href="https://www.artstation.com/artwork/qQVgy2" target="_blank">
-      <img src="ginyang-chia-draw.jpg" alt="Female Sekiro Wallpaper 4K">
-      <p>
-        Female Sekiro Wallpaper 4K<br>
-        Creator: Ginyang Chia
-      </p>
-    </a>
-  </div>
+  <a href="https://www.artstation.com/artwork/qQVgy2" target="_blank" style="text-decoration:none;color:inherit;">
+    
+    <img src="images/abcd.jpg" alt="Female Sekiro Wallpaper 4K">
 
-  <!-- Dummy cards (same as before) -->
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 2</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 3</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 4</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 5</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 6</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 7</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720"><p>Wallpaper 8</p></div>
+    <p>
+      Creator: Ginyang Chia<br>
+    </p>
 
+  </a>
 </div>
-<!-- ✅ GRID END -->
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 2"><p>Wallpaper 2</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 3"><p>Wallpaper 3</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 4"><p>Wallpaper 4</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 5"><p>Wallpaper 5</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 6"><p>Wallpaper 6</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 7"><p>Wallpaper 7</p></div>
+  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 8"><p>Wallpaper 8</p></div>
+</div>
+
+<div class="pagination">
+  <button id="prevBtn">PREVIOUS</button>
+  <button id="nextBtn">NEXT 1</button>
+</div>
+
+</section>
+
+<section class="section">
+<h2>About ACX Walls</h2>
+<p>ACX Walls is a curated wallpaper platform focused on clean design, top-notch quality, and visual aesthetics. Every wallpaper is carefully selected to ensure it never feels boring — all collections are premium, aesthetic, and visually engaging.</p>
+</section>
+
+<section class="section">
+<h2>Credits</h2>
+<p>All wallpapers belong to their respective creators. ACX Walls does not claim ownership of any artwork and showcases content with full respect to original creators.</p>
+</section>
+
+<section class="section">
+<h2>Contact</h2>
+<p>For copyright concerns, business queries or requests, contact us at <strong>acxwalls@gmail.com</strong></p>
+</section>
+
+<footer>
+© 2026 ACX Walls | Follow us: 
+<a href="#">Instagram</a> | <a href="#">Twitter</a> | <a href="#">Discord</a>
+</footer>
+
+<script>
+const tags = document.querySelectorAll('.tag');
+const cards = document.querySelectorAll('.card');
+const body = document.body;
+const searchBox = document.getElementById('searchBox');
+const searchInput = document.getElementById('searchInput');
+
+tags.forEach(tag=>{
+  tag.onclick = e=>{
+    e.stopPropagation();
+    tags.forEach(t=>t.classList.remove('active'));
+    tag.classList.add('active');
+  };
+});
+
+cards.forEach(card=>{
+  card.onclick = e=>{
+    e.stopPropagation();
+    cards.forEach(c=>c.classList.remove('active'));
+    card.classList.add('active');
+  };
+});
+
+body.onclick = ()=>{
+  tags.forEach(t=>t.classList.remove('active'));
+  cards.forEach(c=>c.classList.remove('active'));
+};
+
+// Pagination
+let currentPage=1,maxPage=10;
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const grid=document.getElementById('grid');
+
+function pulse(btn){
+  btn.classList.add('pulse');
+  setTimeout(()=>btn.classList.remove('pulse'),180);
+}
+function animateGrid(){
+  grid.classList.add('animate');
+  setTimeout(()=>grid.classList.remove('animate'),350);
+}
+function scrollToTop(){
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function updateButtons(){
+  prevBtn.textContent=currentPage>1?`PREVIOUS ${currentPage-1}`:'PREVIOUS';
+  nextBtn.textContent=currentPage<maxPage?`NEXT ${currentPage}`:'SEARCH TAGS';
+}
+
+nextBtn.onclick=()=>{
+  if(currentPage < maxPage){
+    currentPage++;
+    animateGrid();
+    pulse(nextBtn);
+    scrollToTop();
+    updateButtons();
+  }else{
+    searchBox.scrollIntoView({behavior:'smooth'});
+    searchInput.focus();
+  }
+};
+
+prevBtn.onclick=()=>{
+  if(currentPage > 1){
+    currentPage--;
+    animateGrid();
+    pulse(prevBtn);
+    scrollToTop();
+    updateButtons();
+  }
+};
+
+updateButtons();
+
+// Simple Search Filter
+searchInput.addEventListener('input',()=>{
+  const term = searchInput.value.toLowerCase();
+  cards.forEach(card=>{
+    const text = card.querySelector('p').textContent.toLowerCase();
+    card.style.display = text.includes(term)?'block':'none';
+  });
+});
+</script>
 
 </body>
 </html>
