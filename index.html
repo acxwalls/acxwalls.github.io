@@ -156,7 +156,6 @@ header{
 }
 .card img{
   width:100%;
-  height:auto;
   aspect-ratio:16/9;
   object-fit:cover;
   display:block;
@@ -227,7 +226,6 @@ footer a:hover{color:var(--pink);}
 <body>
 
 <div id="intro"><h1>ACX WALLS</h1></div>
-
 <header><div class="logo">ACX Walls</div></header>
 
 <section id="home">
@@ -246,136 +244,100 @@ footer a:hover{color:var(--pink);}
 
 <div class="title">Latest Uploads</div>
 
-<div class="grid" id="grid">
-  <div class="card">
-  <a href="https://www.artstation.com/artwork/qQVgy2" target="_blank" style="text-decoration:none;color:inherit;">
-    
-    <img src="ginyang-chia-draw.jpg" alt="Female Sekiro Wallpaper 4K">
-
-    <p>
-      Creator: Ginyang Chia<br>
-    </p>
-
-  </a>
-</div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 2"><p>Wallpaper 2</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 3"><p>Wallpaper 3</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 4"><p>Wallpaper 4</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 5"><p>Wallpaper 5</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 6"><p>Wallpaper 6</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 7"><p>Wallpaper 7</p></div>
-  <div class="card"><img src="https://via.placeholder.com/1280x720" alt="Wallpaper 8"><p>Wallpaper 8</p></div>
-</div>
+<div class="grid" id="grid"></div>
 
 <div class="pagination">
   <button id="prevBtn">PREVIOUS</button>
-  <button id="nextBtn">NEXT 1</button>
+  <button id="nextBtn">NEXT</button>
 </div>
 
 </section>
 
-<section class="section">
-<h2>About ACX Walls</h2>
-<p>ACX Walls is a curated wallpaper platform focused on clean design, top-notch quality, and visual aesthetics. Every wallpaper is carefully selected to ensure it never feels boring — all collections are premium, aesthetic, and visually engaging.</p>
-</section>
-
-<section class="section">
-<h2>Credits</h2>
-<p>All wallpapers belong to their respective creators. ACX Walls does not claim ownership of any artwork and showcases content with full respect to original creators.</p>
-</section>
-
-<section class="section">
-<h2>Contact</h2>
-<p>For copyright concerns, business queries or requests, contact us at <strong>acxwalls@gmail.com</strong></p>
-</section>
-
 <footer>
-© 2026 ACX Walls | Follow us: 
-<a href="#">Instagram</a> | <a href="#">Twitter</a> | <a href="#">Discord</a>
+© 2026 ACX Walls
 </footer>
 
 <script>
+document.addEventListener("DOMContentLoaded", function(){
+
+const grid = document.getElementById('grid');
 const tags = document.querySelectorAll('.tag');
-const cards = document.querySelectorAll('.card');
-const body = document.body;
-const searchBox = document.getElementById('searchBox');
 const searchInput = document.getElementById('searchInput');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
 
-tags.forEach(tag=>{
-  tag.onclick = e=>{
-    e.stopPropagation();
-    tags.forEach(t=>t.classList.remove('active'));
-    tag.classList.add('active');
-  };
+let wallpapers = [];
+let filtered = [];
+let currentPage = 1;
+const perPage = 8;
+
+fetch('data.json')
+.then(res=>res.json())
+.then(data=>{
+  wallpapers = data.reverse();
+  filtered = wallpapers;
+  render();
+  updateButtons();
 });
 
-cards.forEach(card=>{
-  card.onclick = e=>{
-    e.stopPropagation();
-    cards.forEach(c=>c.classList.remove('active'));
-    card.classList.add('active');
-  };
-});
+function render(){
+  grid.innerHTML='';
+  const start=(currentPage-1)*perPage;
+  const items=filtered.slice(start,start+perPage);
 
-body.onclick = ()=>{
-  tags.forEach(t=>t.classList.remove('active'));
-  cards.forEach(c=>c.classList.remove('active'));
-};
+  items.forEach(item=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`
+      <a href="${item.link}" target="_blank">
+        <img src="${item.image}" alt="${item.title}">
+        <p>${item.title}<br>Creator: ${item.creator}</p>
+      </a>
+    `;
+    grid.appendChild(card);
+  });
+}
 
-// Pagination
-let currentPage=1,maxPage=10;
-const prevBtn=document.getElementById('prevBtn');
-const nextBtn=document.getElementById('nextBtn');
-const grid=document.getElementById('grid');
-
-function pulse(btn){
-  btn.classList.add('pulse');
-  setTimeout(()=>btn.classList.remove('pulse'),180);
-}
-function animateGrid(){
-  grid.classList.add('animate');
-  setTimeout(()=>grid.classList.remove('animate'),350);
-}
-function scrollToTop(){
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 function updateButtons(){
-  prevBtn.textContent=currentPage>1?`PREVIOUS ${currentPage-1}`:'PREVIOUS';
-  nextBtn.textContent=currentPage<maxPage?`NEXT ${currentPage}`:'SEARCH TAGS';
+  const max=Math.ceil(filtered.length/perPage);
+  prevBtn.disabled=currentPage===1;
+  nextBtn.disabled=currentPage===max;
 }
 
 nextBtn.onclick=()=>{
-  if(currentPage < maxPage){
-    currentPage++;
-    animateGrid();
-    pulse(nextBtn);
-    scrollToTop();
-    updateButtons();
-  }else{
-    searchBox.scrollIntoView({behavior:'smooth'});
-    searchInput.focus();
-  }
+  const max=Math.ceil(filtered.length/perPage);
+  if(currentPage<max){currentPage++;render();updateButtons();}
 };
 
 prevBtn.onclick=()=>{
-  if(currentPage > 1){
-    currentPage--;
-    animateGrid();
-    pulse(prevBtn);
-    scrollToTop();
-    updateButtons();
-  }
+  if(currentPage>1){currentPage--;render();updateButtons();}
 };
 
-updateButtons();
-
-// Simple Search Filter
 searchInput.addEventListener('input',()=>{
-  const term = searchInput.value.toLowerCase();
-  cards.forEach(card=>{
-    const text = card.querySelector('p').textContent.toLowerCase();
-    card.style.display = text.includes(term)?'block':'none';
-  });
+  const term=searchInput.value.toLowerCase();
+  filtered=wallpapers.filter(w=>
+    w.title.toLowerCase().includes(term) ||
+    w.tags.join(' ').toLowerCase().includes(term)
+  );
+  currentPage=1;
+  render();
+  updateButtons();
+});
+
+tags.forEach(tag=>{
+  tag.onclick=()=>{
+    tags.forEach(t=>t.classList.remove('active'));
+    tag.classList.add('active');
+    const val=tag.textContent.toLowerCase();
+    filtered=wallpapers.filter(w=>
+      w.tags.map(t=>t.toLowerCase()).includes(val)
+    );
+    currentPage=1;
+    render();
+    updateButtons();
+  };
+});
+
 });
 </script>
 
